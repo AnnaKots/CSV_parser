@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="./app.component.css">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+  <title>CSV парсинг</title>
+</head>
+<body>
+  <header>
+    <h1>Парсинг CSV</h1>
+    <mat-icon>cancel</mat-icon>
+  </header>
+
+  <input type="file" name="files" class="form-control"
+  #uploads  (change)="onChange(uploads.files)" multiple
+  value="process"/>
+
+  <section>
+    <div *ngIf="visible">
+      <table border="">
+        <thead>
+          <tr>
+            <td *ngFor="let header of headers"> {{header}}</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let record of personArray;">
+            <td> {{record.id}} </td>
+            <td> {{record.name}} </td>
+            <td> {{record.surname}} </td>
+            <td>
+              <mat-form-field class="example-chip-list">
+                <mat-chip-list #chipList aria-label="Language selection">
+                  <mat-chip *ngFor="let lang of record.languages"
+                  [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(lang)"> {{lang}}
+                  <mat-icon matChipRemove *ngIf="removable">
+                    &#11198;</mat-icon>
+                  </mat-chip>
+                  <input placeholder="Добавьте язык..."
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+              </mat-form-field>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </section>
+</body>
